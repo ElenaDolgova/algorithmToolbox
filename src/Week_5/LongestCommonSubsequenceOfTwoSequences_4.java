@@ -10,33 +10,31 @@ import java.util.StringTokenizer;
 
 public class LongestCommonSubsequenceOfTwoSequences_4 {
 
-    public static int findLongestSubsequence(List<Integer> listInput,
-                                             List<Integer> counts,
-                                             List<List<Integer>> nextInt) {
-        int currentMax = 1;
-        for (int i = 0; i < listInput.size(); ++i) {
-            List<Integer> listOfAllNext = new ArrayList<>();
-            nextInt.add(listOfAllNext);
-            listOfAllNext.add(-1);
-            counts.add(1);
-            for (int j = 0; j < i; ++j) {
-                int newCount = counts.get(j) + 1;
-                if (listInput.get(i) > listInput.get(j) && newCount > counts.get(i)) {
-                    counts.set(i, newCount);
-                    currentMax = Math.max(currentMax, newCount);
-                }
-            }
-            for (int j = i - 1; j >= 0; --j) {
-                if (listInput.get(i) > listInput.get(j) && counts.get(i) - counts.get(j) == 1) {
-                    if (listOfAllNext.get(0) == -1) {
-                        listOfAllNext.set(0, j);
-                    } else {
-                        listOfAllNext.add(j);
-                    }
+    public static int findCommonSubsequence(List<Integer> rows, List<Integer> cols) {
+        List<List<Integer>> table = new ArrayList<>();
+
+        for (int row = 0; row <= rows.size(); ++row) {
+            ArrayList<Integer> list = new ArrayList<>();
+            list.add(0);
+            table.add(list);
+        }
+        List<Integer> list = table.get(0);
+        for (int col = 0; col < cols.size(); ++col) {
+            list.add(0);
+        }
+
+        for (int row = 1; row <= rows.size(); ++row) {
+            for (int col = 1; col <= cols.size(); ++col) {
+                if (cols.get(col - 1).equals(rows.get(row - 1))) {
+                    table.get(row).add(table.get(row - 1).get(col - 1) + 1);
+                } else {
+                    table.get(row).add(
+                            Math.max(table.get(row - 1).get(col), table.get(row).get(col - 1))
+                    );
                 }
             }
         }
-        return currentMax;
+        return table.get(rows.size()).get(cols.size());
     }
 
     public static int getLongestSubsequence(List<Integer> listInput,
@@ -53,7 +51,7 @@ public class LongestCommonSubsequenceOfTwoSequences_4 {
         int index = 0;
         for (index = counts.size() - 1; ; --index) {
             if (index < 0) {
-                break;
+                return index;
             }
             currMax = counts.get(index);
             if (currMax == maxLength && index <= indexMax) {
@@ -61,9 +59,7 @@ public class LongestCommonSubsequenceOfTwoSequences_4 {
             }
         }
         int response = index;
-        if (index < 0) {
-            return response;
-        }
+
         for (; ; index = nextInt.get(index)) {
             subSequence.add(listInput.get(index));
             if (nextInt.get(index) == -1) {
@@ -82,27 +78,12 @@ public class LongestCommonSubsequenceOfTwoSequences_4 {
         for (int i = 0; i < n; ++i) {
             firstList.add(fastScanner.nextInt());
         }
-        List<Integer> counts = new ArrayList<>(firstList.size());
-        List<List<Integer>> nextInt = new ArrayList<>(firstList.size());
-        int max = findLongestSubsequence(firstList, counts, nextInt);
-        System.out.println();
-        // считаем данные по длине и индексу снаружи
-//        for (int i = max, index = firstList.size() - 1; i > 0; ) {
-//            List<Integer> subSequence = new ArrayList<>();
-//            index = getLongestSubsequence(firstList, counts, nextInt, subSequence, i, index);
-//            if (index < 0) {
-//                --i;
-//                index = firstList.size() - 1;
-//            } else {
-//                --index;
-//            }
-//            if (!subSequence.isEmpty()) {
-//                for (int j = subSequence.size() - 1; j >= 0; --j) {
-//                    System.out.print(subSequence.get(j) + " ");
-//                }
-//                System.out.println();
-//            }
-//        }
+        int m = fastScanner.nextInt();
+        List<Integer> secondList = new ArrayList<>(m);
+        for (int i = 0; i < m; ++i) {
+            secondList.add(fastScanner.nextInt());
+        }
+        System.out.println(findCommonSubsequence(firstList, secondList));
     }
 
     static class FastScanner {

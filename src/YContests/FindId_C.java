@@ -4,6 +4,8 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.StringTokenizer;
 
 public class FindId_C {
@@ -15,27 +17,20 @@ public class FindId_C {
     public static void main(String[] args) {
         FastScanner fastScanner = new FastScanner(System.in);
         int n = fastScanner.nextInt();
-        int[] students = new int[n + 1];
+        boolean[] students = new boolean[n + 1];
         for (int i = 0; i < n - 2; ++i) {
             int student = fastScanner.nextInt();
-            students[student] = 1;
+            students[student] = true;
         }
-        int firstStudent = 0;
-        int secondStudent = 0;
+
+        List<Integer> missing = new ArrayList<>(2);
         for (int i = 1; i < n + 1; ++i) {
-            if (students[i] == 0 && firstStudent == 0) {
-                firstStudent = i;
-            }
-            if (students[i] == 0 && firstStudent != 0) {
-                secondStudent = i;
+            if (!students[i]) {
+                missing.add(i);
             }
         }
 
-        if (firstStudent < secondStudent) {
-            System.out.println(firstStudent + " " + secondStudent);
-        } else {
-            System.out.println(secondStudent + " " + firstStudent);
-        }
+        System.out.println(missing.get(0) + " " + missing.get(1));
     }
 
     static class FastScanner {
