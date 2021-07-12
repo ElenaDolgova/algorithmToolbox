@@ -34,8 +34,8 @@ public class StackWithMax_3_Test {
     @Test
     public void test3() {
         List<Integer> responce =
-                doMain(new FastScanner(getInputStream(List.of(
-                        "10 push 2 push 3 push 9 push 7 push 2 max max max pop max"))));
+                doMain(new FastScanner(getInputStream(
+                        "10 push 2 push 3 push 9 push 7 push 2 max max max pop max")));
         List<Integer> expected = List.of(9, 9, 9, 9);
         equalsArrays(expected, responce);
     }
@@ -43,7 +43,7 @@ public class StackWithMax_3_Test {
     @Test
     public void test4() {
         List<Integer> responce =
-                doMain(new FastScanner(getInputStream(List.of("3 push 1 push 7 pop"))));
+                doMain(new FastScanner(getInputStream("3 push 1 push 7 pop")));
         List<Integer> expected = List.of();
         equalsArrays(expected, responce);
     }
@@ -51,7 +51,7 @@ public class StackWithMax_3_Test {
     @Test
     public void test5() {
         List<Integer> responce =
-                doMain(new FastScanner(getInputStream(List.of("6 push 7 push 1 push 7 max pop max"))));
+                doMain(new FastScanner(getInputStream("6 push 7 push 1 push 7 max pop max")));
         List<Integer> expected = List.of(7, 7);
         equalsArrays(expected, responce);
     }
