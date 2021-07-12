@@ -5,10 +5,14 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 
-import java.io.*;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.InputStream;
 import java.util.List;
 
 import static Coursera_2.Week_1.NetworkPacketProcessingSimulation_3.*;
+import static Coursera_2.Week_1.TestUtils.getInputStream;
 
 public class NetworkPacketProcessingSimulation_3_Test {
 
@@ -244,18 +248,5 @@ public class NetworkPacketProcessingSimulation_3_Test {
         response.forEach(
                 a -> Assertions.assertEquals(fs.nextInt(), a)
         );
-    }
-
-    private InputStream getInputStream(List<String> list) {
-        ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        list.forEach(p -> {
-            try {
-                baos.write(p.getBytes());
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        });
-        byte[] bytes = baos.toByteArray();
-        return new ByteArrayInputStream(bytes);
     }
 }
