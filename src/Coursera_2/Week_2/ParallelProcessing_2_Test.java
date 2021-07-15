@@ -12,6 +12,8 @@ import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.util.List;
 
+import Coursera_2.Week_2.ParallelProcessing_2.Thread;
+
 import static Coursera_2.Week_1.TestUtils.equalsArrays;
 import static Coursera_2.Week_1.TestUtils.getInputStream;
 import static Coursera_2.Week_2.ParallelProcessing_2.*;
@@ -20,7 +22,7 @@ public class ParallelProcessing_2_Test {
 
     @Test
     public void test() {
-        Heap<WaitingThread> heap = new Heap<>(5);
+        Heap<Thread> heap = new Heap<>(5);
         heap.insert(new WaitingThread(2, 1));
         heap.insert(new WaitingThread(1, 2));
         Assertions.assertEquals(2, heap.extractMin().getId());

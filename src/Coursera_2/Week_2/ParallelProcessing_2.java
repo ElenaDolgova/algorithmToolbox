@@ -11,13 +11,13 @@ import java.util.StringTokenizer;
 
 public class ParallelProcessing_2 {
 
-    public interface Thread<T> extends Comparable<T> {
+    public interface Thread extends Comparable<Thread> {
         long getId();
 
         long getPriority();
     }
 
-    public static class WaitingThread implements Thread<WaitingThread> {
+    public static class WaitingThread implements Thread {
         private final long id;
         // чем ниже priorityFree, тем первее поток будет активным
         // можно было бы использовать просто Queue, если бы
@@ -31,15 +31,15 @@ public class ParallelProcessing_2 {
         }
 
         @Override
-        public int compareTo(WaitingThread o) {
-            if (this.priority < o.priority) {
+        public int compareTo(Thread o) {
+            if (this.priority < o.getPriority()) {
                 return -1;
-            } else if (this.priority > o.priority) {
+            } else if (this.priority > o.getPriority()) {
                 return 1;
             }
-            if (this.id < o.id) {
+            if (this.id < o.getId()) {
                 return -1;
-            } else if (this.id > o.id) {
+            } else if (this.id > o.getId()) {
                 return 1;
             }
             return 0;
@@ -56,10 +56,8 @@ public class ParallelProcessing_2 {
         }
     }
 
-    public static class RunningThread implements Thread<RunningThread> {
+    public static class RunningThread implements Thread {
         private final long id;
-        private final long startTime;
-        private final long processTime;
         // чем больше priority, тем позже поток освободится
         // minHeap
         private final long priority;
@@ -67,20 +65,18 @@ public class ParallelProcessing_2 {
         public RunningThread(long id, long startTime, long processTime) {
             this.id = id;
             this.priority = startTime + processTime;
-            this.startTime = startTime;
-            this.processTime = processTime;
         }
 
         @Override
-        public int compareTo(RunningThread o) {
-            if (this.priority < o.priority) {
+        public int compareTo(Thread o) {
+            if (this.priority < o.getPriority()) {
                 return -1;
-            } else if (this.priority > o.priority) {
+            } else if (this.priority > o.getPriority()) {
                 return 1;
             }
-            if (this.id < o.id) {
+            if (this.id < o.getId()) {
                 return -1;
-            } else if (this.id > o.id) {
+            } else if (this.id > o.getId()) {
                 return 1;
             }
             return 0;
@@ -97,7 +93,7 @@ public class ParallelProcessing_2 {
         }
     }
 
-    public static class Heap<T extends Thread<T>> {
+    public static class Heap<T extends Thread> {
         private final List<T> list;
         private final int capacity;
         private int lastInsertedIndex;
@@ -199,7 +195,7 @@ public class ParallelProcessing_2 {
         }
     }
 
-    public static class PriorityQueue<T extends Thread<T>> {
+    public static class PriorityQueue<T extends Thread> {
         private final Heap<T> heap;
 
         public PriorityQueue(int capacity) {
